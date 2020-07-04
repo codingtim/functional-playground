@@ -22,6 +22,22 @@ class MonoidTest {
         Assertions.assertEquals(new Money(30), total);
     }
 
+    @Test
+    void streamReduce_sum() {
+        List<Money> money = List.of(new Money(10), new Money(20), new Money(30));
+
+        Money total = money.stream().reduce(new Money(0), (money1, money2) -> new Money(money1.amount + money2.amount));
+        Assertions.assertEquals(new Money(60), total);
+    }
+
+    @Test
+    void streamReduce_highest() {
+        List<Money> money = List.of(new Money(10), new Money(20), new Money(30));
+
+        Money total = money.stream().reduce(new Money(0), (money1, money2) -> money1.amount > money2.amount ? money1 : money2);
+        Assertions.assertEquals(new Money(30), total);
+    }
+
     interface Monoid<TYPE> {
         TYPE zero();
 
